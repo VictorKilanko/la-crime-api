@@ -1,8 +1,21 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-app = FastAPI(title="LA Crime Predictor", description="Predict Violent Crime Rate per 100k in LA")
+app = FastAPI(
+    title="LA Crime Predictor",
+    description="Predict Violent Crime Rate per 100k in Los Angeles using linear regression.",
+    version="1.0"
+)
 
+# 👇 NEW: Landing page route
+@app.get("/")
+def read_root():
+    return {
+        "message": "Welcome to the LA Crime Predictor API!",
+        "how_to_use": "Go to /docs for the interactive interface or POST to /predict with your input data."
+    }
+
+# Input schema
 class CrimeInput(BaseModel):
     Homicide_per_100k: float
     ForRape_per_100k: float
@@ -11,6 +24,7 @@ class CrimeInput(BaseModel):
     TruckDrivers: float
     MaleVietnamVeterans: float
 
+# Prediction endpoint
 @app.post("/predict")
 def predict_crime(data: CrimeInput):
     prediction = (

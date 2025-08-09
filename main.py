@@ -7,7 +7,7 @@ app = FastAPI(
     version="1.0"
 )
 
-# 👇 NEW: Landing page route
+# NEW: Landing page route
 @app.get("/")
 def read_root():
     return {
